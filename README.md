@@ -1,3 +1,0 @@
-# publicexp
-
-Experimentation (public)

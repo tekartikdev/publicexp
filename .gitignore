@@ -33,3 +33,5 @@ doc/api/
 
 # Loca
 .local/
+/cloud_firestore_exp/linux/
+/cloud_firestore_exp/.metadata
