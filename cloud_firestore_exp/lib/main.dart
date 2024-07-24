@@ -25,6 +25,9 @@ Future<void> main() async {
   StreamSubscription? subscriptionColl2;
 
   mainMenuFlutter(() {
+    enter(() {
+      write('Entering menu');
+    });
     item('Cancel all listeners', () {
       subscriptionDoc1?.cancel();
       subscriptionDoc2?.cancel();
@@ -65,7 +68,7 @@ Future<void> main() async {
       var existingValue = rawValue is int ? rawValue : 0;
 
       var newData = {'value': existingValue + 1};
-      write('newData: $newData');
+      write('newdData: $newData');
       await ref.set(newData);
     }
 

@@ -43,8 +43,14 @@ dependencies:
   firebase_core: ^3.2.0
 
 dependency_overrides:
-  # cloud_firestore_web:
-  #  path: /home/alex/tekartik/devx/git/github.com/tekartik-2/flutterfire/packages/cloud_firestore/cloud_firestore_web
+  cloud_firestore_web:
+    git:
+      url: https://github.com/tekartik-2/flutterfire
+      path: packages/cloud_firestore/cloud_firestore_web
+
+_dependency_overrides:
+  cloud_firestore_web:
+    path: ../../../tekartik-2/flutterfire/packages/cloud_firestore/cloud_firestore_web
 
 dev_dependencies:
   flutter_test:
