@@ -15,6 +15,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   var firestore = FirebaseFirestore.instanceFor(app: app);
+
+  /// Important to reproduce the issue. create 2 distinct references to the same document and collection
+  /// This is typically the case in a flutter app when you have multiple screen
+  /// listening to the same document or collection
   var ref1 = firestore.doc(counterDocPath);
   var ref2 = firestore.doc(counterDocPath);
   var collRef1 = firestore.collection(counterCollectionPath);
