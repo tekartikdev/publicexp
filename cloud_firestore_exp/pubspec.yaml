@@ -49,6 +49,17 @@ _dependency_overrides:
       url: https://github.com/tekartik-2/flutterfire
       path: packages/cloud_firestore/cloud_firestore_web
 
+__dependency_overrides:
+  cloud_firestore_web:
+    git:
+      url: https://github.com/FirebaseExtended/flutterfire.git
+      ref: fix-firestore-hot-reload-web
+      path: packages/cloud_firestore/cloud_firestore_web
+  cloud_firestore_platform_interface:
+    git:
+      url: https://github.com/FirebaseExtended/flutterfire.git
+      ref: fix-firestore-hot-reload-web
+      path: packages/cloud_firestore/cloud_firestore_platform_interface
 # _dependency_overrides:
 #  cloud_firestore_web:
 #    path: ../../../tekartik-2/flutterfire/packages/cloud_firestore/cloud_firestore_web
