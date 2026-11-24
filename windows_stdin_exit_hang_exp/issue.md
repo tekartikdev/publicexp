@@ -1,8 +1,8 @@
-<!-- Draft of a dart-lang/sdk issue, not filed. Fill "Results on Windows" first. -->
+<!-- Draft of a dart-lang/sdk issue, not filed. -->
 
-# [vm, io] Windows: a program that cancelled its stdin subscription sometimes never exits while its stdin (a pipe) stays open
+# [vm, io] Windows: a program that ran a process while listening to its stdin sometimes never exits while its stdin (a pipe) stays open
 
-**Dart SDK version:** 3.14.1 (stable) on "windows_x64" (GitHub Actions `windows-latest`). Never seen on Linux.
+**Dart SDK version:** 3.14.1 (stable) on "windows_x64": 14 hangs in 50 runs of the `process` variant. 3.15.0-157.0.dev: 1 in 50. Both on GitHub Actions `windows-latest`. Never seen on Linux.
 
 ## What happens
 
@@ -10,7 +10,7 @@ A compiled program (`dart compile exe`) whose stdin is a pipe that its parent ke
 
 1. listens to `stdin`,
 2. runs a process (its stdin a pipe never closed, the way a tool running a command does),
-3. prints `ready`, then gets one line on its stdin,
+3. prints `ready` (in the CI test, it then gets one line on its stdin, which turns out not to matter),
 4. cancels the stdin subscription 500ms later, prints `done`, and returns from `main`.
 
 Sometimes the process never exits: `done` is printed, then nothing happens until the parent kills it.
@@ -179,11 +179,18 @@ Future<String> _run(String exe, List<String> variant) async {
 }
 ```
 
-## Results on Windows
+## Results
 
-<!-- To fill: the output of `dart repro.dart 50` on Windows. -->
+`dart repro.dart 50` on GitHub Actions: https://github.com/tekartikdev/publicexp/actions/runs/45425639918. Each cell is the number of `no exit` runs out of 50:
 
-On Linux (3.14.0), `dart repro.dart 10` reports `{exited: 10}` for every variant.
+| Variant | Windows, 3.14.1 stable | Windows, 3.15.0-157.0.dev | Linux, 3.14.1 stable |
+|---|---|---|---|
+| `plain` | 0 | 0 | 0 |
+| `line` | 0 | 0 | 0 |
+| `process` | 14 | 1 | 0 |
+| `process+line` | 14 | 0 | 0 |
+
+The program hangs only when it ran a process while listening to its stdin. The line written to its stdin makes no difference. It hangs much less often on dev, but it still hangs.
 
 ## Expected
 
