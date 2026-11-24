@@ -1,0 +1,27 @@
+name: Windows stdin exit hang
+on:
+  push:
+    branches: ['**']
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+jobs:
+  repro:
+    name: ${{ matrix.os }} ${{ matrix.sdk }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            sdk: stable
+          - os: windows-latest
+            sdk: dev
+          - os: ubuntu-latest
+            sdk: stable
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+      - run: dart windows_stdin_exit_hang_exp/repro.dart 50
